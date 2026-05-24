@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Och from "../assets/donors/och.png";
 import UnWomen from "../assets/donors/UN-women.png";
 import Undp from "../assets/donors/undp.png";
+import { FaAngleRight } from "react-icons/fa6";
 
 const images = [Och, UnWomen, Undp];
 function Donors() {
@@ -30,9 +31,9 @@ function Donors() {
 
         <Link
           to="/donors"
-          className="text-sky-500 text-base font-medium hover:text-sky-700 transition"
+          className="text-sky-500 text-base font-medium hover:text-sky-700 transition flex items-center gap-2"
         >
-          View All Partners <i className="fa-solid fa-angle-right ml-2"></i>
+          View All Partners <FaAngleRight />
         </Link>
       </div>
 

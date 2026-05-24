@@ -1,6 +1,16 @@
 import React from "react";
 import logo from "../assets/pwso-logo.png";
 import { Link } from "react-router-dom";
+import {
+  FaSquareFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+  FaXTwitter,
+  FaLocationDot,
+  FaPhone,
+  FaEnvelope,
+} from "react-icons/fa6";
 
 function Footer() {
   return (
@@ -14,39 +24,49 @@ function Footer() {
             </p>
             <div className="flex flex-wrap items-center gap-4 text-2xl text-slate-300">
               <a
-                href="#"
+                href="https://facebook.com/pwsoafg"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Facebook"
                 className="hover:text-blue-700 transition"
               >
-                <i className="fa-brands fa-square-facebook"></i>
+                <FaSquareFacebook />
               </a>
               <a
-                href="#"
+                href="https://instagram.com/pwso_afg"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="hover:text-blue-700 transition"
               >
-                <i className="fa-brands fa-instagram"></i>
+                <FaInstagram />
               </a>
               <a
-                href="#"
+                href="https://linkedin.com/company/pwso"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="LinkedIn"
                 className="hover:text-blue-700 transition"
               >
-                <i className="fa-brands fa-linkedin"></i>
+                <FaLinkedin />
               </a>
               <a
-                href="#"
+                href="https://youtube.com/@pwso"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="YouTube"
                 className="hover:text-blue-700 transition"
               >
-                <i className="fa-brands fa-youtube"></i>
+                <FaYoutube />
               </a>
               <a
-                href="#"
+                href="https://twitter.com/pwso_afg"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="X Twitter"
                 className="hover:text-blue-700 transition"
               >
-                <i className="fa-brands fa-x-twitter"></i>
+                <FaXTwitter />
               </a>
             </div>
           </div>
@@ -58,7 +78,7 @@ function Footer() {
               </h4>
               <ul className="space-y-3 text-sm text-slate-300">
                 <li>
-                  <Link to="/" className="hover:text-blue-700 transition">
+                  <Link to="/about" className="hover:text-blue-700 transition">
                     Our Mission
                   </Link>
                 </li>
@@ -68,16 +88,18 @@ function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/project"
-                    className="hover:text-blue-700 transition"
-                  >
-                    Career
+                  <Link to="/team" className="hover:text-blue-700 transition">
+                    Team
                   </Link>
                 </li>
                 <li>
-                  <Link to="/team" className="hover:text-blue-700 transition">
-                    Team
+                  <Link to="/blog" className="hover:text-blue-700 transition">
+                    News & Updates
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/gallery" className="hover:text-blue-700 transition">
+                    Gallery
                   </Link>
                 </li>
               </ul>
@@ -89,16 +111,23 @@ function Footer() {
               </h4>
               <ul className="space-y-3 text-sm text-slate-300">
                 <li>
-                  <Link to="/donors" className="hover:text-blue-700 transition">
-                    Donors
+                  <Link to="/donate" className="hover:text-blue-700 transition">
+                    Donate
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/contact"
-                    className="hover:text-blue-700 transition"
-                  >
+                  <Link to="/donors" className="hover:text-blue-700 transition">
+                    Partners
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="hover:text-blue-700 transition">
                     Volunteer
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/faq" className="hover:text-blue-700 transition">
+                    FAQ
                   </Link>
                 </li>
               </ul>
@@ -110,11 +139,18 @@ function Footer() {
               </h4>
               <ul className="space-y-3 text-sm text-slate-300">
                 <li>
-                  <Link
-                    to="/contact"
-                    className="hover:text-blue-700 transition"
-                  >
+                  <Link to="/contact" className="hover:text-blue-700 transition">
                     Contact us
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/privacy" className="hover:text-blue-700 transition">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/terms" className="hover:text-blue-700 transition">
+                    Terms of Service
                   </Link>
                 </li>
               </ul>
@@ -125,8 +161,8 @@ function Footer() {
             <h4 className="text-lg font-semibold text-white">Contact us</h4>
             <ul className="space-y-4 text-sm text-slate-300">
               <li className="flex gap-3 items-start">
-                <span className="mt-1 text-xl text-cyan-400">
-                  <i className="fa-solid fa-location-dot"></i>
+                <span className="mt-1 shrink-0 text-xl text-cyan-400">
+                  <FaLocationDot />
                 </span>
                 <address className="not-italic leading-relaxed">
                   Gul Sorkh Quare, 4th district, Zadran Plaza, 4th floor, AP#
@@ -135,13 +171,13 @@ function Footer() {
               </li>
               <li className="flex gap-3 items-center">
                 <span className="text-xl text-cyan-400">
-                  <i className="fa-solid fa-phone"></i>
+                  <FaPhone />
                 </span>
                 <span>+93 (0) 795 666 304</span>
               </li>
               <li className="flex gap-3 items-center">
                 <span className="text-xl text-cyan-400">
-                  <i className="fa-regular fa-envelope"></i>
+                  <FaEnvelope />
                 </span>
                 <span>info@pwso.org</span>
               </li>

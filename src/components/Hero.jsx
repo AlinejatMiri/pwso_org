@@ -17,6 +17,14 @@ function Hero() {
     return () => clearInterval(interval);
   }, []);
 
+  function handleLearnMore(e) {
+    e.preventDefault();
+    const el = document.getElementById("about");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <div className="w-full h-[110dvh] md:h-[85vh] lg:h-screen relative">
       {images.map((img, i) => (
@@ -27,31 +35,26 @@ function Hero() {
           }`}
           style={{ backgroundImage: `url(${img})` }}
         >
-          {/* Overlay */}
           <div className="w-full h-full bg-linear-to-l from-gray-500/20 to-gray-500/20 flex flex-col justify-center px-4 md:px-10 lg:px-20 py-10 gap-4">
-            {/* Badge */}
             <span className="w-fit px-4 py-2 bg-sky-500 text-white rounded-full text-xs md:text-sm font-semibold shadow-lg">
               Bring Changes Today
             </span>
 
-            {/* Heading */}
             <h3 className="font-bold flex flex-col leading-tight text-white">
-              <span className=" text-2xl md:text-4xl lg:text-5xl ">
+              <span className="text-2xl md:text-4xl lg:text-5xl">
                 Everyone deserves a chance for a
               </span>
-              <span className=" italic text-3xl md:text-5xl lg:text-6xl">
+              <span className="italic text-3xl md:text-5xl lg:text-6xl">
                 better future
               </span>
             </h3>
 
-            {/* Paragraph */}
             <p className="text-white text-sm md:text-lg lg:text-xl max-w-xl [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
               Be part of making a difference by supporting education,
               healthcare, and emergency aid. Together, we can bring meaningful,
               lasting change to children and families throughout Afghanistan.
             </p>
 
-            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mt-4">
               <Link
                 to="/donate"
@@ -60,29 +63,28 @@ function Hero() {
                 Donate Now
               </Link>
 
-              <a
-                href="#about"
-                className="px-5 py-3 text-black bg-blue-50 rounded-md text-center"
+              <button
+                onClick={handleLearnMore}
+                className="px-5 py-3 text-black bg-blue-50 rounded-md text-center cursor-pointer"
               >
                 Learn More
-              </a>
+              </button>
             </div>
 
-            {/* Stats */}
             <div className="border-t border-white/30 mt-6 text-white font-bold pt-4 flex flex-wrap gap-6">
-              <div className="flex flex-col items-center ">
-                <span className=" text-2xl md:text-4xl font-bold">3M+</span>
-                <span className=" text-sm md:text-lg">People Helped</span>
+              <div className="flex flex-col items-center">
+                <span className="text-2xl md:text-4xl font-bold">3M+</span>
+                <span className="text-sm md:text-lg">People Helped</span>
               </div>
 
               <div className="flex flex-col items-center">
-                <span className=" text-2xl md:text-4xl font-bold">4</span>
-                <span className=" text-sm md:text-lg">Provinces</span>
+                <span className="text-2xl md:text-4xl font-bold">4</span>
+                <span className="text-sm md:text-lg">Provinces</span>
               </div>
 
               <div className="flex flex-col items-center">
-                <span className=" text-2xl md:text-4xl font-bold">15+</span>
-                <span className=" text-sm md:text-lg">Years Service</span>
+                <span className="text-2xl md:text-4xl font-bold">15+</span>
+                <span className="text-sm md:text-lg">Years Service</span>
               </div>
             </div>
           </div>

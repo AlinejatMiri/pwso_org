@@ -1,6 +1,30 @@
-import React from "react";
+import { useState } from "react";
+import { FaLocationDot, FaPhone, FaRegEnvelope } from "react-icons/fa6";
 
 function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
+  const [status, setStatus] = useState({ type: "", text: "" });
+
+  function handleChange(e) {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setStatus({ type: "loading", text: "Sending..." });
+
+    setTimeout(() => {
+      setStatus({ type: "success", text: "Message sent successfully!" });
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    }, 1000);
+  }
+
   return (
     <section className="w-full min-h-[100dvh] bg-slate-50">
       <div className="mt-20 flex flex-col flex-wrap min-h-[30vh] w-full items-start justify-center gap-5 px-6 py-10">
@@ -18,14 +42,14 @@ function ContactForm() {
           <div className="mb-8">
             <h4 className="font-bold text-xl">Contact Information</h4>
             <p className="mt-4 text-base leading-7 text-slate-700">
-              Have questions or want to learn more about our work? We're here to
+              Have questions or want to learn more about our work? We&apos;re here to
               help.
             </p>
           </div>
-          <ul className="flex  list-none flex-col gap-8">
+          <ul className="flex list-none flex-col gap-8">
             <li className="flex justify-center items-center gap-4 h-fit">
               <span className="px-2 py-2 bg-sky-200 rounded-md">
-                <i className="fa-solid fa-map-location-dot pt-1 text-2xl text-sky-600"></i>
+                <FaLocationDot className="text-2xl text-sky-600" />
               </span>
               <address className="not-italic flex flex-col gap-1">
                 <span>Address</span>
@@ -37,7 +61,7 @@ function ContactForm() {
             </li>
             <li className="flex items-center gap-4">
               <span className="px-2 py-2 bg-sky-200 rounded-md">
-                <i className="fa-solid fa-phone text-2xl text-sky-600"></i>
+                <FaPhone className="text-2xl text-sky-600" />
               </span>
               <span className="flex flex-col">
                 <span>Phone</span>
@@ -52,7 +76,7 @@ function ContactForm() {
 
             <li className="flex items-center gap-4">
               <span className="px-2 py-2 bg-sky-200 rounded-md">
-                <i className="fa-regular fa-envelope text-2xl text-sky-600"></i>
+                <FaRegEnvelope className="text-2xl text-sky-600" />
               </span>
               <span className="flex flex-col">
                 <span>Email</span>
@@ -72,7 +96,7 @@ function ContactForm() {
             <h4 className="font-bold text-xl">Send us a message</h4>
           </div>
 
-          <form className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+          <form className="grid w-full grid-cols-1 gap-4 md:grid-cols-2" onSubmit={handleSubmit}>
             <div className="w-full">
               <label
                 htmlFor="name"
@@ -83,6 +107,8 @@ function ContactForm() {
               <input
                 type="text"
                 id="name"
+                value={formData.name}
+                onChange={handleChange}
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
                 required
               />
@@ -97,13 +123,15 @@ function ContactForm() {
               <input
                 type="email"
                 id="email"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
                 required
               />
             </div>
             <div className="w-full">
               <label
-                htmlFor="email"
+                htmlFor="phone"
                 className="mb-2 block text-sm font-semibold text-slate-700"
               >
                 Phone <span className="text-sm text-gray-500">(optional)</span>
@@ -111,20 +139,24 @@ function ContactForm() {
               <input
                 type="tel"
                 id="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
               />
             </div>
             <div className="w-full">
               <label
-                htmlFor="email"
+                htmlFor="subject"
                 className="mb-2 block text-sm font-semibold text-slate-700"
               >
-                Subject {' '}
+                Subject{' '}
                 <span className="text-sm text-gray-500">(optional)</span>
               </label>
               <input
                 type="text"
                 id="subject"
+                value={formData.subject}
+                onChange={handleChange}
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
               />
             </div>
@@ -139,6 +171,8 @@ function ContactForm() {
               <textarea
                 id="message"
                 rows="6"
+                value={formData.message}
+                onChange={handleChange}
                 className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200 resize-none"
                 required
               ></textarea>
@@ -147,9 +181,16 @@ function ContactForm() {
               <input
                 type="submit"
                 id="submit"
-                value="Send Message"
-                className="w-full cursor-pointer rounded-xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700 sm:w-auto sm:min-w-[180px]"
+                value={status.type === "loading" ? "Sending..." : "Send Message"}
+                className="w-full cursor-pointer rounded-xl bg-sky-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-700 sm:w-auto sm:min-w-[180px] disabled:opacity-50"
+                disabled={status.type === "loading"}
               />
+              {status.type === "success" && (
+                <span className="ml-4 text-sm font-semibold text-green-600">{status.text}</span>
+              )}
+              {status.type === "error" && (
+                <span className="ml-4 text-sm font-semibold text-red-600">{status.text}</span>
+              )}
             </div>
           </form>
         </div>

@@ -1,32 +1,49 @@
-import { useState } from "react";
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router";
 import Header from "./components/Header.jsx";
-import "./App.css";
-import Home from "./routes/home";
-import About from "./routes/about";
-import Projects from "./routes/projects";
-import Contact from "./routes/contact";
-import Donors from "./routes/donors";
-import Donate from "./routes/donate";
+import ScrollToTop from "./components/ScrollToTop.jsx";
+import BackToTop from "./components/BackToTop.jsx";
+import LoadingSpinner from "./components/LoadingSpinner.jsx";
 import Footer from "./components/footer.jsx";
-import Team from './routes/Team.jsx';
+
+const Home = lazy(() => import("./routes/home"));
+const About = lazy(() => import("./routes/about"));
+const Projects = lazy(() => import("./routes/projects"));
+const ProjectDetail = lazy(() => import("./routes/ProjectDetail"));
+const Contact = lazy(() => import("./routes/contact"));
+const Donors = lazy(() => import("./routes/donors"));
+const Donate = lazy(() => import("./routes/donate"));
+const Team = lazy(() => import("./routes/Team"));
+const FAQ = lazy(() => import("./routes/faq"));
+const Blog = lazy(() => import("./routes/blog"));
+const Gallery = lazy(() => import("./routes/gallery"));
+const Privacy = lazy(() => import("./routes/privacy"));
+const Terms = lazy(() => import("./routes/terms"));
+const NotFound = lazy(() => import("./routes/NotFound"));
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="min-h-screen w-full max-w-[2000px] mx-auto bg-gray-50 ">
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/project" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/donors" element={<Donors />} />
-        <Route path="/donate" element={<Donate />} />
-        <Route path="/team" element={<Team />} />
-      </Routes>
-      <Footer />
+    <div className="min-h-screen w-full max-w-[2000px] mx-auto bg-gray-50">
+      <ScrollToTop />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Routes>
+          <Route path="/" element={<><Header /><Home /><Footer /></>} />
+          <Route path="/about" element={<><Header /><About /><Footer /></>} />
+          <Route path="/project" element={<><Header /><Projects /><Footer /></>} />
+          <Route path="/project/:slug" element={<><Header /><ProjectDetail /><Footer /></>} />
+          <Route path="/contact" element={<><Header /><Contact /><Footer /></>} />
+          <Route path="/donors" element={<><Header /><Donors /><Footer /></>} />
+          <Route path="/donate" element={<><Header /><Donate /><Footer /></>} />
+          <Route path="/team" element={<><Header /><Team /><Footer /></>} />
+          <Route path="/faq" element={<><Header /><FAQ /><Footer /></>} />
+          <Route path="/blog" element={<><Header /><Blog /><Footer /></>} />
+          <Route path="/gallery" element={<><Header /><Gallery /><Footer /></>} />
+          <Route path="/privacy" element={<><Header /><Privacy /><Footer /></>} />
+          <Route path="/terms" element={<><Header /><Terms /><Footer /></>} />
+          <Route path="*" element={<><Header /><NotFound /><Footer /></>} />
+        </Routes>
+      </Suspense>
+      <BackToTop />
     </div>
   );
 }
