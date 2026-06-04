@@ -1,4 +1,15 @@
-const API_BASE = 'http://localhost:3000/api';
+function getApiBase() {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  const host = window.location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1') {
+    return 'http://localhost:3000/api';
+  }
+  return '/api';
+}
+
+const API_BASE = getApiBase();
 
 async function handleResponse(res) {
   if (!res.ok) {
