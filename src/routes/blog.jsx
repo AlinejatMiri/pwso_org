@@ -1,41 +1,7 @@
+import { useState, useEffect } from "react";
 import Seo from "../components/Seo";
-import img from "../assets/images/img4.jpeg";
-import img2 from "../assets/heroimages/img2.jpeg";
-import img3 from "../assets/heroimages/img3.jpeg";
+import { fetchBlogPosts } from "../api";
 import { FaCalendarDays } from "react-icons/fa6";
-
-const articles = [
-  {
-    title: "PWSO Launches New Education Program in Balkh Province",
-    excerpt: "Our new initiative brings learning materials and teacher training to over 1,000 children in rural Balkh.",
-    image: img, date: "May 15, 2026", category: "Education"
-  },
-  {
-    title: "Women's Health Clinic Reaches 500 Patients in First Quarter",
-    excerpt: "PWSO's mobile health clinic provided essential maternal health services to 500 women across three districts.",
-    image: img2, date: "April 28, 2026", category: "Health"
-  },
-  {
-    title: "Economic Empowerment Workshop Graduates 120 Women",
-    excerpt: "120 women completed vocational training and received startup kits to begin their own enterprises.",
-    image: img3, date: "March 10, 2026", category: "Empowerment"
-  },
-  {
-    title: "Emergency Relief Distribution Reaches 2,000 Families",
-    excerpt: "In partnership with UN agencies, PWSO distributed food and hygiene kits to displaced families in Kabul.",
-    image: img, date: "February 5, 2026", category: "Humanitarian"
-  },
-  {
-    title: "Research Report: Gender-Based Violence Awareness in Afghanistan",
-    excerpt: "Our latest study examines awareness levels and access to support services for GBV survivors in four provinces.",
-    image: img2, date: "January 18, 2026", category: "Research"
-  },
-  {
-    title: "Climate Resilience Project Helps Farmers Adapt to Drought",
-    excerpt: "PWSO trained 600 farmers in drought-resistant techniques and provided improved seeds for the growing season.",
-    image: img3, date: "December 12, 2025", category: "Agriculture"
-  }
-];
 
 const categoryColors = {
   Education: "bg-blue-500",
@@ -47,6 +13,24 @@ const categoryColors = {
 };
 
 function Blog() {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBlogPosts()
+      .then(setArticles)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <p className="text-slate-500 text-lg">Loading...</p>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-slate-50 px-4 pb-16 pt-28 sm:px-6 lg:px-12">
       <Seo title="News & Updates" description="Latest news from Poor Women Support Organization (PWSO) in Afghanistan." path="/blog" />
@@ -66,12 +50,12 @@ function Blog() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <article
-              key={article.id || article.title}
+              key={article._id || article.slug}
               className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="relative h-52">
                 <img
-                  src={article.image || img}
+                  src={article.imageUrl}
                   alt={article.title}
                   className="h-full w-full object-cover"
                 />
@@ -86,7 +70,7 @@ function Blog() {
                   <span>{article.date}</span>
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">{article.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{article.excerpt || article.content?.slice(0, 150)}</p>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{article.excerpt}</p>
               </div>
             </article>
           ))}

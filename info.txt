@@ -1,0 +1,9 @@
+- projects — id, slug, title, category, image_url, short_desc, description, impact, full_description, stats (JSONB), objectives (JSONB), created_at, updated_at
+- blog_posts — id, title, slug, excerpt, image_url, date, category, created_at, updated_at
+- gallery_images — id, image_url, caption, sort_order, created_at
+- faqs — id, question, answer, sort_order, created_at, updated_at
+- partners — id, name, logo_url, description, sort_order, created_at
+- team_members — id, name, role, image_url, bio, sort_order, created_at, updated_at
+- about_highlights — id, title, description, image_url, sort_order
+- contact_messages — id, name, email, phone, subject, message, is_read, created_at
+- users (admin) — id, email, password_hash, name, role, created_at, updated_at

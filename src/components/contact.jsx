@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaLocationDot, FaPhone, FaRegEnvelope } from "react-icons/fa6";
+import { submitContact } from "../api";
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -15,14 +16,17 @@ function ContactForm() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setStatus({ type: "loading", text: "Sending..." });
 
-    setTimeout(() => {
+    try {
+      await submitContact(formData);
       setStatus({ type: "success", text: "Message sent successfully!" });
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-    }, 1000);
+    } catch (err) {
+      setStatus({ type: "error", text: err.message || "Failed to send message." });
+    }
   }
 
   return (

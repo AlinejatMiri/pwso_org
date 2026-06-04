@@ -1,8 +1,17 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import projectsData from "../data/projects";
+import { fetchProjects } from "../api";
 
 function Project() {
-  const projects = projectsData.slice(0, 3);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    fetchProjects()
+      .then((data) => setProjects(data.slice(0, 3)))
+      .catch(console.error);
+  }, []);
+
+  if (projects.length === 0) return null;
 
   return (
     <section
@@ -27,12 +36,12 @@ function Project() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project) => (
           <Link
-            key={project.slug || project.title}
+            key={project.slug || project._id}
             to={`/project/${project.slug}`}
             className="relative h-[220px] md:h-[260px] lg:h-[280px] overflow-hidden rounded-lg group block"
           >
             <img
-              src={project.image}
+              src={project.imageUrl}
               alt={project.title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />

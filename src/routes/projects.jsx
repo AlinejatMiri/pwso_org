@@ -1,9 +1,26 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
-import projectsData from "../data/projects";
+import { fetchProjects } from "../api";
 
 function Projects() {
-  const projects = projectsData;
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProjects()
+      .then(setProjects)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <p className="text-slate-500 text-lg">Loading projects...</p>
+      </section>
+    );
+  }
 
   return (
     <section className="min-h-screen bg-slate-50 px-4 pb-16 pt-28 sm:px-6 lg:px-12">
@@ -25,13 +42,13 @@ function Projects() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <Link
-              key={project.slug || project.title}
+              key={project.slug || project._id}
               to={`/project/${project.slug}`}
               className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition-transform duration-300 hover:-translate-y-1 block"
             >
               <div className="relative h-56">
                 <img
-                  src={project.image}
+                  src={project.imageUrl}
                   alt={project.title}
                   className="h-full w-full object-cover"
                 />

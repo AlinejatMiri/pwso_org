@@ -1,11 +1,28 @@
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Seo from "../components/Seo";
-import { getProjectBySlug } from "../data/projects";
+import { fetchProjectBySlug } from "../api";
 import { FaArrowLeft } from "react-icons/fa6";
 
 function ProjectDetail() {
   const { slug } = useParams();
-  const project = getProjectBySlug(slug);
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProjectBySlug(slug)
+      .then(setProject)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <section className="flex min-h-screen items-center justify-center bg-slate-50 px-4 pt-20">
+        <p className="text-slate-500 text-lg">Loading...</p>
+      </section>
+    );
+  }
 
   if (!project) {
     return (
@@ -37,7 +54,7 @@ function ProjectDetail() {
         <div className="overflow-hidden rounded-3xl shadow-sm ring-1 ring-slate-200">
           <div className="relative h-64 sm:h-80 lg:h-96">
             <img
-              src={project.image}
+              src={project.imageUrl}
               alt={project.title}
               className="h-full w-full object-cover"
             />

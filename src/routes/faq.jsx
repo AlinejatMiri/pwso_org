@@ -1,21 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Seo from "../components/Seo";
+import { fetchFAQs } from "../api";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 
-const faqs = [
-  { question: "What is PWSO and what does it do?", answer: "The Poor Women Support Organization (PWSO) is a non-profit, non-governmental organization established in 2017 and registered with Afghanistan's Ministry of Economy. We work across education, health, economic empowerment, agriculture, and research to support women, children, and vulnerable communities in Afghanistan." },
-  { question: "How can I donate to PWSO?", answer: "You can donate via bank transfer, mobile money, or in-kind contributions. Visit our Donate page for full details including bank account information." },
-  { question: "How are donations used?", answer: "Donations directly fund our programs in education, health, economic empowerment, and emergency relief. We maintain transparent financial reporting." },
-  { question: "How can I volunteer with PWSO?", answer: "We welcome volunteers with relevant skills and experience. Please reach out through our Contact page or email info@pwso.org." },
-  { question: "Where does PWSO operate?", answer: "PWSO operates across multiple provinces in Afghanistan, focusing on underserved communities with the greatest need." },
-  { question: "Can I sponsor a specific program or project?", answer: "Yes. We welcome targeted support for specific programs. Contact partnerships@pwso.org to discuss." },
-];
-
 function FAQ() {
+  const [faqs, setFaqs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [openIndex, setOpenIndex] = useState(null);
+
+  useEffect(() => {
+    fetchFAQs()
+      .then(setFaqs)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
 
   function toggle(index) {
     setOpenIndex(openIndex === index ? null : index);
+  }
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <p className="text-slate-500 text-lg">Loading...</p>
+      </section>
+    );
   }
 
   return (
@@ -37,7 +46,7 @@ function FAQ() {
         <div className="flex flex-col gap-4">
           {faqs.map((faq, index) => (
             <div
-              key={faq.id || index}
+              key={faq._id || index}
               className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200"
             >
               <button

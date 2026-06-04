@@ -1,46 +1,26 @@
-import avatar from "../assets/images/team/avatar.png";
+import { useState, useEffect } from "react";
 import Seo from "../components/Seo";
-
-const members = [
-  {
-    name: "Ehsan Mohammadzai",
-    role: "Founder & Executive Director",
-    image: avatar,
-    bio: "Ehsan founded PWSO in 2017 with a vision to empower Afghan women and communities. With over a decade of experience in humanitarian program management, he leads the organization's strategic direction and partnerships."
-  },
-  {
-    name: "Zarmina Haidari",
-    role: "Program Manager",
-    image: avatar,
-    bio: "Zarmina oversees the planning and execution of PWSO's programs across education, health, and economic empowerment."
-  },
-  {
-    name: "Ahmad Naveed",
-    role: "Finance & Admin Officer",
-    image: avatar,
-    bio: "Ahmad manages the financial operations and administrative systems of PWSO, ensuring transparency and accountability."
-  },
-  {
-    name: "Fatima Ahmadi",
-    role: "MEAL Officer",
-    image: avatar,
-    bio: "Fatima leads Monitoring, Evaluation, Accountability, and Learning initiatives across all sectors."
-  },
-  {
-    name: "Mohammad Sharif",
-    role: "Health Program Coordinator",
-    image: avatar,
-    bio: "Mohammad coordinates PWSO's health initiatives, focusing on reproductive health and community health awareness."
-  },
-  {
-    name: "Lailuma Noori",
-    role: "Women Empowerment Officer",
-    image: avatar,
-    bio: "Lailuma works directly with women in communities, facilitating skills training and economic opportunity programs."
-  }
-];
+import { fetchTeamMembers } from "../api";
 
 function Team() {
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTeamMembers()
+      .then(setMembers)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <p className="text-slate-500 text-lg">Loading...</p>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-slate-50 px-4 pb-16 pt-28 sm:px-6 lg:px-12">
       <Seo title="Our Team" description="Meet the dedicated team behind Poor Women Support Organization (PWSO)." path="/team" />
@@ -62,12 +42,12 @@ function Team() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {members.map((member) => (
             <article
-              key={member.name + member.role}
+              key={member._id || member.name}
               className="flex flex-col items-center rounded-3xl bg-white px-6 py-8 text-center shadow-sm ring-1 ring-slate-200 transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="mb-4 h-28 w-28 overflow-hidden rounded-full ring-4 ring-sky-100">
                 <img
-                  src={member.image || avatar}
+                  src={member.imageUrl}
                   alt={member.name}
                   className="h-full w-full object-cover"
                 />

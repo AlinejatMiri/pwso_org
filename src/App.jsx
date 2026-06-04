@@ -5,6 +5,8 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import BackToTop from "./components/BackToTop.jsx";
 import LoadingSpinner from "./components/LoadingSpinner.jsx";
 import Footer from "./components/footer.jsx";
+import AdminLayout from "./admin/AdminLayout.jsx";
+import PrivateRoute from "./admin/PrivateRoute.jsx";
 
 const Home = lazy(() => import("./routes/home"));
 const About = lazy(() => import("./routes/about"));
@@ -21,9 +23,19 @@ const Privacy = lazy(() => import("./routes/privacy"));
 const Terms = lazy(() => import("./routes/terms"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 
+const AdminLogin = lazy(() => import("./admin/Login"));
+const AdminDashboard = lazy(() => import("./admin/Dashboard"));
+const AdminProjects = lazy(() => import("./admin/ProjectsManager"));
+const AdminBlog = lazy(() => import("./admin/BlogManager"));
+const AdminGallery = lazy(() => import("./admin/GalleryManager"));
+const AdminFaqs = lazy(() => import("./admin/FaqsManager"));
+const AdminPartners = lazy(() => import("./admin/PartnersManager"));
+const AdminTeam = lazy(() => import("./admin/TeamManager"));
+const AdminMessages = lazy(() => import("./admin/MessagesManager"));
+
 function App() {
   return (
-    <div className="min-h-screen w-full max-w-[2000px] mx-auto bg-gray-50">
+    <div className="min-h-screen w-full bg-gray-50">
       <ScrollToTop />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
@@ -40,6 +52,17 @@ function App() {
           <Route path="/gallery" element={<><Header /><Gallery /><Footer /></>} />
           <Route path="/privacy" element={<><Header /><Privacy /><Footer /></>} />
           <Route path="/terms" element={<><Header /><Terms /><Footer /></>} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<PrivateRoute><AdminLayout /></PrivateRoute>}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="projects" element={<AdminProjects />} />
+            <Route path="blog" element={<AdminBlog />} />
+            <Route path="gallery" element={<AdminGallery />} />
+            <Route path="faqs" element={<AdminFaqs />} />
+            <Route path="partners" element={<AdminPartners />} />
+            <Route path="team" element={<AdminTeam />} />
+            <Route path="messages" element={<AdminMessages />} />
+          </Route>
           <Route path="*" element={<><Header /><NotFound /><Footer /></>} />
         </Routes>
       </Suspense>

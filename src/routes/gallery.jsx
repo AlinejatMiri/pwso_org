@@ -1,25 +1,26 @@
+import { useState, useEffect } from "react";
 import Seo from "../components/Seo";
-import img1 from "../assets/heroimages/img1.jpeg";
-import img2 from "../assets/heroimages/img2.jpeg";
-import img3 from "../assets/heroimages/img3.jpeg";
-import img4 from "../assets/images/img4.jpeg";
-
-const images = [
-  { src: img1, caption: "Community outreach program in rural Afghanistan" },
-  { src: img2, caption: "Education support for children" },
-  { src: img3, caption: "Health awareness campaign" },
-  { src: img4, caption: "Women empowerment workshop" },
-  { src: img1, caption: "Emergency relief distribution" },
-  { src: img2, caption: "Vocational training session" },
-  { src: img3, caption: "Field research and assessment" },
-  { src: img4, caption: "Community gathering" },
-  { src: img1, caption: "School supply distribution" },
-  { src: img2, caption: "Agricultural training program" },
-  { src: img3, caption: "Mobile health clinic" },
-  { src: img4, caption: "Team visit to project site" },
-];
+import { fetchGalleryImages } from "../api";
 
 function Gallery() {
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchGalleryImages()
+      .then(setImages)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <p className="text-slate-500 text-lg">Loading...</p>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-slate-50 px-4 pb-16 pt-28 sm:px-6 lg:px-12">
       <Seo title="Gallery" description="Photos from PWSO programs and initiatives across Afghanistan." path="/gallery" />
@@ -39,11 +40,11 @@ function Gallery() {
         <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">
           {images.map((item, index) => (
             <div
-              key={index}
+              key={item._id || index}
               className="group relative mb-4 overflow-hidden rounded-2xl break-inside-avoid shadow-sm ring-1 ring-slate-200"
             >
               <img
-                src={item.src}
+                src={item.imageUrl}
                 alt={item.caption || ""}
                 className="w-full object-cover transition-transform duration-500 group-hover:scale-110"
               />

@@ -1,12 +1,19 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Och from "../assets/donors/och.png";
-import UnWomen from "../assets/donors/UN-women.png";
-import Undp from "../assets/donors/undp.png";
+import { fetchPartners } from "../api";
 import { FaAngleRight } from "react-icons/fa6";
 
-const images = [Och, UnWomen, Undp];
 function Donors() {
+  const [partners, setPartners] = useState([]);
+
+  useEffect(() => {
+    fetchPartners()
+      .then((data) => setPartners(data.slice(0, 5)))
+      .catch(console.error);
+  }, []);
+
+  if (partners.length === 0) return null;
+
   return (
     <section
       id="donors"
@@ -38,11 +45,11 @@ function Donors() {
       </div>
 
       <div className="w-[70vw] grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 items-center">
-        {images.map((img, index) => {
+        {partners.map((partner) => {
           return (
-            <div key={index} className="shadow-md flex justify-center rounded-md transition-transform duration-150 hover:shadow-xl hover:translate-y-[-8px] ">
+            <div key={partner._id || partner.name} className="shadow-md flex justify-center rounded-md transition-transform duration-150 hover:shadow-xl hover:translate-y-[-8px] ">
               <img
-                src={img}
+                src={partner.logoUrl}
                 alt="organization logo"
                 className="h-20 w-auto object-contain"
               />
