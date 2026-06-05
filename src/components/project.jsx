@@ -16,7 +16,7 @@ function Project() {
   return (
     <section
       id="projects"
-      className="w-full bg-blue-100 px-4 md:px-10 lg:px-20 py-12 md:py-16 lg:py-20"
+      className="w-full rounded-md bg-blue-100 px-4 py-12 md:py-16 lg:py-20"
     >
       <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
         <span className="inline-block px-5 py-2 bg-sky-500 text-white rounded-full text-xs md:text-sm font-semibold shadow-lg">
